@@ -1,6 +1,5 @@
 package com.example.myapplication0328.mvp.presenter.presenterimpl
 
-import android.view.View
 import com.example.myapplication0328.mvp.model.bean.HomeBean
 import com.example.myapplication0328.mvp.model.modelimpl.MainModel
 import com.example.myapplication0328.mvp.presenter.base.BasePresenter
@@ -15,5 +14,9 @@ class MainPresenter(var mainActivity: MainActivity) : BasePresenter<Contract.IMa
                 mainActivity.onIMainViewSuccsee(it)
             }
         })
+    }
+
+    fun onDestroy(){
+        softReference.clear()
     }
 }

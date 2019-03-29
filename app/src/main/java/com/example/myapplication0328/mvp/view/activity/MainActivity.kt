@@ -1,6 +1,5 @@
 package com.example.myapplication0328.mvp.view.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import com.example.myapplication0325_1.adapter.HomeAdapter
@@ -8,18 +7,25 @@ import com.example.myapplication0328.R
 import com.example.myapplication0328.mvp.model.bean.HomeBean
 import com.example.myapplication0328.mvp.model.bean.Result
 import com.example.myapplication0328.mvp.presenter.presenterimpl.MainPresenter
+import com.example.myapplication0328.mvp.view.base.BaseActivity
 import com.example.myapplication0328.mvp.view.contract.Contract
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() , Contract.IMainView {
+class MainActivity : BaseActivity<Contract.IMainView, MainPresenter>() , Contract.IMainView {
 
     lateinit var adapter: HomeAdapter
+    lateinit var mainPresenter : MainPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initActivity(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
         recycle.layoutManager = GridLayoutManager(this,2, GridLayoutManager.VERTICAL,false)
-        var mainPresenter : MainPresenter = MainPresenter(this)
+    }
+
+    override fun cratePresenter() {
+        mainPresenter = MainPresenter(this)
+    }
+
+    override fun getData() {
         mainPresenter.onIMainPresenter()
     }
 
@@ -33,4 +39,8 @@ class MainActivity : AppCompatActivity() , Contract.IMainView {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mainPresenter.onDestroy()
+    }
 }
